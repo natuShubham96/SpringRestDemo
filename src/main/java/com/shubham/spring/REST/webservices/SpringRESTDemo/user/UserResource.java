@@ -25,7 +25,7 @@ public class UserResource {
         User user = userdao.findOne(id);
 
         if(user == null) {
-            throw new UserNotFoundException("id-"+id);
+            throw new UserNotFoundException("id-"+id);  // This gives status of 55 internal server not found, which is not correct, we want 404 error status
         }
         return userdao.findOne(id);
     }
