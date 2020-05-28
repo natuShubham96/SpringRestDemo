@@ -1,4 +1,4 @@
-package com.shubham.spring.REST.webservices.SpringRESTDemo;
+package com.shubham.spring.REST.webservices.SpringRESTDemo.helloWorld;
 
 import org.springframework.web.bind.annotation.*;
 
