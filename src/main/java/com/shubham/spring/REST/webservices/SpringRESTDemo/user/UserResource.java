@@ -21,6 +21,12 @@ public class UserResource {
 
     @GetMapping(path = "/users/{id}")
     public User retriveOne(@PathVariable int id) {
+
+        User user = userdao.findOne(id);
+
+        if(user == null) {
+            throw new UserNotFoundException("id-"+id);
+        }
         return userdao.findOne(id);
     }
 
