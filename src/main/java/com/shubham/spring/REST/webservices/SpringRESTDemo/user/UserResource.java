@@ -41,4 +41,13 @@ public class UserResource {
         //Last 2 steps are done to return the response and set the location of returned user
     }
 
+    @DeleteMapping(path = "/users/{id}")
+    public void deleteUser(@PathVariable int id) {
+        User user = userdao.deleteById(id);
+
+        if(user == null) {
+            throw new UserNotFoundException("id-"+id);
+        }
+    }
+
 }
