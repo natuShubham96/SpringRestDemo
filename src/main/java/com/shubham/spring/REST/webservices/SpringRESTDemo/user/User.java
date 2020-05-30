@@ -1,11 +1,17 @@
 package com.shubham.spring.REST.webservices.SpringRESTDemo.user;
 
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class User {
 
     private Integer id;
+
+    @Size(min = 3,message = "Name Should Have Atleast 2 Characters")
     private String name;
+
+    @Past
     private Date DOB;
 
     public User(Integer id, String name, Date DOB) {
