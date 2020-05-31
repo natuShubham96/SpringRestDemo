@@ -1,9 +1,16 @@
 package com.shubham.spring.REST.webservices.SpringRESTDemo.helloWorld;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Locale;
 
 @RestController
 public class HelloWorldController {
+
+    @Autowired
+    private MessageSource messageSource;  //Autowiring in the MessageSource returned from the bean in main class
 
     @RequestMapping(method = RequestMethod.GET,path = "/hello-world")  //Instead of RequestMapping we could use GetMapping annotation with whivh we don't require to pass method, we on;y need path with it
     public String helloWorld() {
@@ -18,5 +25,10 @@ public class HelloWorldController {
     @GetMapping(path = "/hello-world/path-variable/{name}")
     public HelloWorldBean helloWorldPathVariable(@PathVariable String name) {
         return new HelloWorldBean(String.format("Hello World, %s",name));
+    }
+
+    @GetMapping(path = "/hello-world/I18N")
+    public String helloworldI18N(@RequestHeader(name = "Accept-Language", required = false) Locale locale) {  //Taking in the requested language from the header
+        return messageSource.getMessage("good.morning.message",null,locale);  //Displaying in the message from passed Locale
     }
 }
