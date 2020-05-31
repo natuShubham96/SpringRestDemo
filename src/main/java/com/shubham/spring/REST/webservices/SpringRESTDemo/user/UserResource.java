@@ -1,6 +1,8 @@
 package com.shubham.spring.REST.webservices.SpringRESTDemo.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -8,6 +10,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RestController
 public class UserResource {
@@ -21,14 +25,21 @@ public class UserResource {
     }
 
     @GetMapping(path = "/users/{id}")
-    public User retriveOne(@PathVariable int id) {
+    public Resource<User> retriveOne(@PathVariable int id) {
 
         User user = userdao.findOne(id);
 
         if(user == null) {
             throw new UserNotFoundException("id-"+id);  // This gives status of 55 internal server not found, which is not correct, we want 404 error status
         }
-        return userdao.findOne(id);
+
+        Resource<User> resource = new Resource<User>(user); //Creating a Resource to which the link will be added
+
+        ControllerLinkBuilder linkto = ControllerLinkBuilder.linkTo(methodOn(this.getClass()).retriveAll()); //Creating a link for the resource which needs to be added with the help of it's method
+
+        resource.add(linkto.withRel("all-users")); //Adding the link to the resource and giving the name by which it should be displayed with the help of withRel
+
+        return resource;
     }
 
     @PostMapping(path = "/users")
