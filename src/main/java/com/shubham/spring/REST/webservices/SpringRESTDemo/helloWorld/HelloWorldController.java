@@ -2,9 +2,8 @@ package com.shubham.spring.REST.webservices.SpringRESTDemo.helloWorld;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Locale;
 
 @RestController
 public class HelloWorldController {
@@ -27,8 +26,13 @@ public class HelloWorldController {
         return new HelloWorldBean(String.format("Hello World, %s",name));
     }
 
+//    @GetMapping(path = "/hello-world/I18N")
+//    public String helloworldI18N(@RequestHeader(name = "Accept-Language", required = false) Locale locale) {  //Taking in the requested language from the header
+//        return messageSource.getMessage("good.morning.message",null,locale);  //Displaying in the message from passed Locale
+//    }
+
     @GetMapping(path = "/hello-world/I18N")
-    public String helloworldI18N(@RequestHeader(name = "Accept-Language", required = false) Locale locale) {  //Taking in the requested language from the header
-        return messageSource.getMessage("good.morning.message",null,locale);  //Displaying in the message from passed Locale
+    public String helloworldI18N() {  //Taking in the requested language from the header
+        return messageSource.getMessage("good.morning.message",null, LocaleContextHolder.getLocale());  //Instead of getting locale from request header, reading the locale from LocaleContextHolder
     }
 }
