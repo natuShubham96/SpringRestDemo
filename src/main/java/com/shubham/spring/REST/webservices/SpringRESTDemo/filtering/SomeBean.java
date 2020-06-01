@@ -1,8 +1,11 @@
 package com.shubham.spring.REST.webservices.SpringRESTDemo.filtering;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+//@JsonIgnoreProperties(value = {"field1","field2"}) //Another way of ignoring the fields
+//This is only required for static filtering, dynamic filtering is done in controller file
 
-@JsonIgnoreProperties(value = {"field1","field2"}) //Another way of ignoring the fields
+import com.fasterxml.jackson.annotation.JsonFilter;
+
+@JsonFilter("someBean")  //Specifying that, a filter named someBean, needs to be applied on this bean
 public class SomeBean {
 
     private String field1;
